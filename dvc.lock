@@ -1,13 +1,13 @@
 schema: '2.0'
 stages:
   get-features:
-    cmd: python3 scripts/data_processing/get_features.py data/raw/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/get_features.py data/raw/train.csv
     deps:
     - path: data/raw/train.csv
       hash: md5
       md5: 7828be7ebc0d0d2350e2b1bd39163464
       size: 35143122
-    - path: scripts/data_processing/get_features.py
+    - path: scripts/feature_engineering_scripts/get_features.py
       hash: md5
       md5: ed362687a3eb389bd4a8e737064539bc
       size: 664
@@ -18,13 +18,13 @@ stages:
       size: 336528
       nfiles: 1
   split-director:
-    cmd: python3 scripts/data_processing/split_director.py datasets/stage1/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/split_director.py datasets/stage1/train.csv
     deps:
     - path: datasets/stage1/train.csv
       hash: md5
       md5: 0c293027056ff56bd5133b6800ecf92d
       size: 994156
-    - path: scripts/data_processing/split_director.py
+    - path: scripts/feature_engineering_scripts/split_director.py
       hash: md5
       md5: bf4740323cdb7454eb0f303f8f24a826
       size: 737
@@ -35,13 +35,13 @@ stages:
       size: 962432
       nfiles: 1
   rating_MPAA-OHE:
-    cmd: python3 scripts/data_processing/rating_MPAA_OHE.py datasets/stage1/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/rating_MPAA_OHE.py datasets/stage1/train.csv
     deps:
     - path: datasets/stage1/train.csv
       hash: md5
       md5: c6730762222676781c1b823b5744e157
       size: 336528
-    - path: scripts/data_processing/rating_MPAA_OHE.py
+    - path: scripts/feature_engineering_scripts/rating_MPAA_OHE.py
       hash: md5
       md5: 29fce49ed836b6a88e5430b3886e3f1f
       size: 774
@@ -52,13 +52,13 @@ stages:
       size: 1169756
       nfiles: 1
   drop-na:
-    cmd: python3 scripts/data_processing/drop_na.py datasets/stage2/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/drop_na.py datasets/stage2/train.csv
     deps:
     - path: datasets/stage2/train.csv
       hash: md5
       md5: f83878b74f06e39722c16ac752335cc2
       size: 1169756
-    - path: scripts/data_processing/drop_na.py
+    - path: scripts/feature_engineering_scripts/drop_na.py
       hash: md5
       md5: 55f246f55c2f48451d98ce77f0f0d732
       size: 646
@@ -69,13 +69,13 @@ stages:
       size: 1169756
       nfiles: 1
   split:
-    cmd: python3 scripts/data_processing/train_test_split.py datasets/stage3/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/train_test_split.py datasets/stage3/train.csv
     deps:
     - path: datasets/stage3/train.csv
       hash: md5
       md5: f83878b74f06e39722c16ac752335cc2
       size: 1169756
-    - path: scripts/data_processing/train_test_split.py
+    - path: scripts/feature_engineering_scripts/train_test_split.py
       hash: md5
       md5: ec2374043e932725eb4eade1ea9bd879
       size: 952
@@ -89,13 +89,13 @@ stages:
       size: 1169779
       nfiles: 2
   train:
-    cmd: python3 scripts/model_learning/dt.py datasets/stage4/train.csv model.pkl
+    cmd: python3 scripts/model_scripts/dt.py datasets/stage4/train.csv model.pkl
     deps:
     - path: datasets/stage4/train.csv
       hash: md5
       md5: 3e69530db02b4d889436768e3b1655ec
       size: 818440
-    - path: scripts/model_learning/dt.py
+    - path: scripts/model_scripts/dt.py
       hash: md5
       md5: 73e0f44e3cce810c29a2894e444a84ea
       size: 728
@@ -109,7 +109,7 @@ stages:
       md5: 04fead2a8f8472627f5061b1697304d9
       size: 1935
   evaluate:
-    cmd: python3 scripts/model_learning/evaluate.py datasets/stage4/test.csv models/model.pkl
+    cmd: python3 scripts/model_scripts/evaluate.py datasets/stage4/test.csv models/model.pkl
     deps:
     - path: datasets/stage4/train.csv
       hash: md5
@@ -119,7 +119,7 @@ stages:
       hash: md5
       md5: 04fead2a8f8472627f5061b1697304d9
       size: 1935
-    - path: scripts/model_learning/evaluate.py
+    - path: scripts/model_scripts/evaluate.py
       hash: md5
       md5: 2d4904b23b9cc2a751c0d6c0c09cab29
       size: 567
