@@ -1,50 +1,50 @@
 stages:
   get-features:
-    cmd: python3 scripts/data_processing/get_features.py data/raw/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/get_features.py data/raw/train.csv
     deps:
     - data/raw/train.csv
-    - scripts/data_processing/get_features.py
+    - scripts/feature_engineering_scripts/get_features.py
     outs:
     - datasets/stage1
   rating_MPAA-OHE:
-    cmd: python3 scripts/data_processing/rating_MPAA_OHE.py datasets/stage1/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/rating_MPAA_OHE.py datasets/stage1/train.csv
     deps:
     - datasets/stage1/train.csv
-    - scripts/data_processing/rating_MPAA_OHE.py
+    - scripts/feature_engineering_scripts/rating_MPAA_OHE.py
     outs:
     - datasets/stage2
   drop-na:
-    cmd: python3 scripts/data_processing/drop_na.py datasets/stage2/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/drop_na.py datasets/stage2/train.csv
     deps:
     - datasets/stage2/train.csv
-    - scripts/data_processing/drop_na.py
+    - scripts/feature_engineering_scripts/drop_na.py
     outs:
     - datasets/stage3
   split:
-    cmd: python3 scripts/data_processing/train_test_split.py datasets/stage3/train.csv
+    cmd: python3 scripts/feature_engineering_scripts/train_test_split.py datasets/stage3/train.csv
     deps:
     - datasets/stage3/train.csv
-    - scripts/data_processing/train_test_split.py
+    - scripts/feature_engineering_scripts/train_test_split.py
     params:
     - split.split_ratio
     outs:
     - datasets/stage4
   train:
-    cmd: python3 scripts/model_learning/dt.py datasets/stage4/train.csv model.pkl
+    cmd: python3 scripts/model_scripts/dt.py datasets/stage4/train.csv model.pkl
     deps:
     - datasets/stage4/train.csv
-    - scripts/model_learning/dt.py
+    - scripts/model_scripts/dt.py
     params:
     - train.max_depth
     - train.seed
     outs:
     - models/model.pkl
   evaluate:
-    cmd: python3 scripts/model_learning/evaluate.py datasets/stage4/test.csv models/model.pkl
+    cmd: python3 scripts/model_scripts/evaluate.py datasets/stage4/test.csv models/model.pkl
     deps:
     - datasets/stage4/train.csv
     - models/model.pkl
-    - scripts/model_learning/evaluate.py
+    - scripts/model_scripts/evaluate.py
     metrics:
     - evaluate/score.json:
         cache: false
