@@ -24,3 +24,4 @@ os.makedirs(os.path.join("evaluate"), exist_ok=True)
 
 with open(prc_file, "w") as fd:
     json.dump({"score": score}, fd)
+    
